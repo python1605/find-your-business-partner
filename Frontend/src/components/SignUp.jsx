@@ -1,18 +1,34 @@
 import React from "react";
+import { LuText } from "react-icons/lu";
 
-export default function Login() {
+export default function SignUp() {
   return (
     <>
       <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-bold text-black">
-            Login
+            Sign up
           </h2>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 text-black">
             <form className="space-y-6" action="#" method="POST">
+              <div>
+                <label
+                  className="flex items-center gap-2 input input-bordered input-primary w-full"
+                  style={{ backgroundColor: "white" }}
+                >
+                  <LuText />
+
+                  <input
+                    type="text"
+                    className="grow "
+                    placeholder="Username"
+                    required
+                  />
+                </label>
+              </div>
               <div>
                 <label
                   className="flex items-center gap-2 input input-bordered input-primary w-full"
@@ -30,15 +46,14 @@ export default function Login() {
                   <input
                     type="text"
                     className="grow "
-                    placeholder="Email or username"
+                    placeholder="Email"
                     required
                   />
                 </label>
               </div>
-
               <div>
                 <label
-                  className="input input-bordered input-primary w-full flex items-center gap-2"
+                  className="flex items-center gap-2 input input-bordered input-primary w-full"
                   style={{ backgroundColor: "white" }}
                 >
                   <svg
@@ -62,51 +77,17 @@ export default function Login() {
                 </label>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember_me"
-                    name="remember_me"
-                    type="checkbox"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-black rounded"
-                    required
-                  />
-                  <label
-                    htmlFor="remember_me"
-                    className="ml-2 block text-sm text-black"
-                  >
-                    Remember me
-                  </label>
-                </div>
-
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
+              <div className="flex items-center justify-between text-gray">
+                .You may login from both Email & Username.
               </div>
 
               <div className="text-center">
-                <div>
-                  <button
-                    type="submit"
-                    className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-150 mb-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Login
-                  </button>
-                </div>
-                <div className="text-black">or</div>
-                <div>
-                  <button
-                    type="submit"
-                    className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-150 mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Sign up
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-150 mb-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Sign In
+                </button>
               </div>
             </form>
           </div>

@@ -51,7 +51,7 @@ export default function Navbar() {
                 <div>{navItems}</div>
               </ul>
             </div>
-            <div className="text-4xl mr-1 text-blue-500">
+            <div className="text-4xl mr-1 text-blue-800">
               <BsFillPeopleFill />
             </div>
             <a className="font-bold text-2xl text-blue-500">Business Partner</a>
@@ -79,12 +79,12 @@ export default function Navbar() {
           </div>
           <div className="navbar-end px-1">
             <div className="px-1 mr-2">
-              <button className="btn btn-outline btn-info rounded-full w-24 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-150">
+              <button className="btn btn-outline btn-info rounded-full w-24 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-800 duration-150">
                 Login
               </button>
             </div>
             <div>
-              <button className="btn btn-info hidden md:block rounded-full w-24 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-150">
+              <button className="btn btn-info bg-blue-800 text-white hidden md:block rounded-full w-24 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-800 duration-150">
                 Sign up
               </button>
             </div>
