@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
     <>
-      <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white">
+      <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-bold text-black">
             Login
@@ -99,16 +100,15 @@ export default function Login() {
                   </button>
                 </div>
                 <div className="text-black">or</div>
-                <div>
-                  <button
-                    type="submit"
-                    className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-150 mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Sign up
-                  </button>
-                </div>
               </div>
             </form>
+            <div>
+              <Link to="/signup">
+                <button className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-150 mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Sign up
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

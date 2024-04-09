@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BsFillPeopleFill } from "react-icons/bs";
-import Login from "./Login";
+import Login from "../register/Login";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export default function Navbar() {
                 <div>{navItems}</div>
               </ul>
             </div>
-            <div className="text-4xl mr-1 text-blue-800">
+            <div className="text-4xl mr-1 text-blue-900">
               <BsFillPeopleFill />
             </div>
             <a className="font-bold text-2xl text-blue-500">Business Partner</a>
