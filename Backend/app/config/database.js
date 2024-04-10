@@ -1,21 +1,15 @@
-const knex = require('knex');
-require('dotenv').config();
-const db = knex({
-  client: process.env.DB_CLIENT,
-  connection: {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-  },
-  debug: true,
-  log: {
-    warn(message) {},
-    error(message) {
-      console.log('err', message);
-    },
-    deprecate(message) {},
-    debug(message) {},
-  },
-});
-module.exports = db;
+const mongoose = require('mongoose');
+const uri = 'mongodb://127.0.0.1:27017/find-my-business-partner';
+
+mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Successfully connected to the database');
+  })
+  .catch((err) => {
+    console.error('Could not connect to the database.', err);
+    process.exit();
+  });
