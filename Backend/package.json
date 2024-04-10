@@ -1,40 +1,23 @@
 {
-  "name": "mysql",
+  "name": "find-my-business-partner",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix ./client",
-    "dev": "concurrently \"npm run start\" \"npm run client\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "colors": "^1.4.0",
-    "concurrently": "^8.0.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "express-fileupload": "^1.4.0",
-    "fs": "^0.0.1-security",
-    "joi": "^17.8.4",
-    "joi-objectid": "^4.0.2",
-    "jsonwebtoken": "^9.0.0",
-    "knex": "^2.4.2",
-    "multer": "^1.4.5-lts.1",
-    "mysql": "^2.18.1",
-    "nodemon": "^2.0.21",
-    "path": "^0.12.7",
-    "run": "^1.4.0",
-    "winston": "^3.8.2",
-    "winston-daily-rotate-file": "^4.7.1"
-  },
-  "devDependencies": {
-    "eslint": "^8.36.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5"
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ip": "^2.0.1",
+    "joi": "^17.12.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.0"
   }
 }
