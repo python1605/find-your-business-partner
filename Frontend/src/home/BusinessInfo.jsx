@@ -13,7 +13,7 @@ export default function BusinessInfo() {
         </div>
         <div>
           <button className="drop-shadow-2xl btn btn-info bg-white rounded-full text-blue-800 mb-4 sm:mb-8 w-64 sm:w-80 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-100 duration-150">
-            Please once checkout
+            Sign up for free
           </button>
         </div>
         <div>

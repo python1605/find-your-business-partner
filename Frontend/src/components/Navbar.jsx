@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsFillPeopleFill } from "react-icons/bs";
-import Login from "../register/Login";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   const navigate = useNavigate();
   const navItems = (
     <>
@@ -26,11 +45,12 @@ export default function Navbar() {
       <div className="max-w-screen-2xl container max-auto md:px-20 px-4 bg-white">
         <div className="navbar" style={{ height: "100px" }}>
           <div className="navbar-start">
-            <div className="dropdown">
+            <div className="dropdown text-black" ref={dropdownRef}>
               <div
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost lg:hidden"
+                onClick={toggleDropdown}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -47,17 +67,27 @@ export default function Navbar() {
                   />
                 </svg>
               </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow  rounded-box w-52 text-black text-base bg-white"
-              >
-                <div>{navItems}</div>
-              </ul>
+              {isOpen && (
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 text-black text-base bg-white"
+                >
+                  <div>{navItems}</div>
+                </ul>
+              )}
             </div>
-            <div className="text-4xl mr-1 text-blue-900">
+            <div
+              className="text-4xl mr-1 text-blue-900"
+              onClick={() => navigate("/home")}
+            >
               <BsFillPeopleFill />
             </div>
-            <a className="font-bold text-2xl text-blue-500">Business Partner</a>
+            <a
+              className="font-bold text-2xl text-blue-500"
+              onClick={() => navigate("/home")}
+            >
+              Business Partner
+            </a>
           </div>
           <div className="navbar-center">
             {" "}
