@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { IoBusinessOutline } from "react-icons/io5";
 
 export default function BusinessInfo() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="text-center">
@@ -12,7 +14,7 @@ export default function BusinessInfo() {
           </p>
         </div>
         <div>
-          <button className="drop-shadow-2xl btn btn-info bg-white rounded-full text-blue-800 mb-4 sm:mb-8 w-64 sm:w-80 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-100 duration-150">
+          <button className="drop-shadow-2xl btn btn-info bg-white rounded-full text-blue-800 mb-4 sm:mb-8 w-64 sm:w-80 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-100 duration-150" onClick={() => navigate("/signup")}>
             Sign up for free
           </button>
         </div>

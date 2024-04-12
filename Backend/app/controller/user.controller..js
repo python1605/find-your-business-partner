@@ -1,21 +1,15 @@
 const bcrypt = require('bcrypt');
 const userService = require('../services/user/user.service');
 const responseHandler = require('../config/responseHandler');
-const {
-  registerValidation,
-  loginValidation,
-} = require('../validations/user.validation');
+const { registerSchema } = require('../validations/user.validation');
 const { JWT_SECRET, user, pass } = process.env;
 class UserController {
   async register(req, res) {
     try {
-      const validationResult = await registerValidation(req.body);
-      console.log(validationResult, 'result');
-      if (validationResult && validationResult.error) {
-        return res.json(
-          responseHandler(validationResult.error.details[0].message, false)
-        );
-      }
+      const requestData = req.body;
+      console.log('requestData=======>', requestData);
+      await registerSchema.validateAsync(requestData);
+
       const isEmailAlreadyExists = await userService.isEmailAlreadyExists(
         req.body.email
       );
@@ -32,9 +26,7 @@ class UserController {
       );
     } catch (err) {
       console.log(err);
-      return res.json(
-        responseHandler('something wrong! Please try again', false, err)
-      );
+      return res.json(responseHandler(err.message, false, {}));
     }
   }
 

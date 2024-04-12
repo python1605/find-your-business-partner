@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BusinessInfo from "./BusinessInfo";
 import PrimeMembers from "./primeMembers";
+import SuccessStories from "./successStories";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
         <Navbar />
         <BusinessInfo />
         <PrimeMembers />
+        <SuccessStories />
         <Footer />
       </div>
     </>
