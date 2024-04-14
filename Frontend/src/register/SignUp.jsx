@@ -1,43 +1,51 @@
-import React, { useState } from "react";
+import React from "react";
 import { LuText } from "react-icons/lu";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import callAxios from "../commonFunction/callAxios";
+
+const formValidation = () => {
+  const validationSchema = yup.object({
+    userName: yup
+      .string()
+      .required("Username is required")
+      .min(6, "Password must be at least 6 characters long"),
+    email: yup
+      .string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters long"),
+  });
+  return validationSchema;
+};
 
 export default function SignUp() {
-  const [formData, setFormData] = useState({
-    userName: "",
-    email: "",
-    password: ""
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:7500/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
-      console.log(response)
-      if (response.ok) {
-        // Registration successful, handle accordingly (e.g., redirect to login page)
-        console.log("Registration successful");
-      } else {
-        // Registration failed, handle error
-        console.error("Registration failed");
+  const validateForm = formValidation();
+  const formik = useFormik({
+    initialValues: {
+      userName: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: validateForm,
+    onSubmit: async (values) => {
+      try {
+        const response = await callAxios("post", "users/register", values);
+        if (response?.success === true) {
+          toast.success(response.message);
+        } else {
+          toast.warning(response?.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+    },
+  });
 
   return (
     <>
@@ -50,7 +58,7 @@ export default function SignUp() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 text-black">
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6" onSubmit={formik.handleSubmit}>
               <div>
                 <label
                   className="flex items-center gap-2 input input-bordered input-primary w-full"
@@ -62,11 +70,16 @@ export default function SignUp() {
                     className="grow"
                     placeholder="Username"
                     name="userName"
-                    value={formData.userName}
-                    onChange={handleChange}
-                    required
+                    value={formik.values.userName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.userName && formik.errors.userName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.userName}
+                  </p>
+                )}
               </div>
               <div>
                 <label
@@ -79,18 +92,24 @@ export default function SignUp() {
                     fill="currentColor"
                     className="w-4 h-4 opacity-70"
                   >
-                    {/* SVG Path */}
+                    <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                    <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                   </svg>
                   <input
                     type="text"
                     className="grow"
                     placeholder="Email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.email && formik.errors.email && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.email}
+                  </p>
+                )}
               </div>
               <div>
                 <label
@@ -103,18 +122,28 @@ export default function SignUp() {
                     fill="currentColor"
                     className="w-4 h-4 opacity-70"
                   >
-                    {/* SVG Path */}
+                    <path
+                      fillRule="evenodd"
+                      d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                      clipRule="evenodd"
+                    />
                   </svg>
+
                   <input
-                    type="text"
+                    type="password"
                     className="grow"
                     placeholder="Password"
                     name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.password && formik.errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.password}
+                  </p>
+                )}
               </div>
 
               <div className="flex items-center justify-between text-gray">

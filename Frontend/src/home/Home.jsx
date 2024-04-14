@@ -11,8 +11,8 @@ function Home() {
       <div className="bg-blue-400">
         <Navbar />
         <BusinessInfo />
-        <PrimeMembers />
-        <SuccessStories />
+        {/* <PrimeMembers /> */}
+        {/* <SuccessStories /> */}
         <Footer />
       </div>
     </>

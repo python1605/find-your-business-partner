@@ -1,7 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import callAxios from "../commonFunction/callAxios";
+import { toast } from "react-toastify";
+
+const formValidation = () => {
+  const validationSchema = yup.object({
+    emailOrUsername: yup.string().required("Email or username is required"),
+    password: yup.string().required("Password is required"),
+  });
+  return validationSchema;
+};
 
 export default function Login() {
+  const validateForm = formValidation();
+  const formik = useFormik({
+    initialValues: {
+      emailOrUsername: "",
+      password: "",
+    },
+    validationSchema: validateForm,
+    onSubmit: async (values) => {
+      try {
+        const response = await callAxios("post", "users/register", values);
+        if (response?.success === true) {
+          toast.success(response.message);
+        } else {
+          toast.warning(response?.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    },
+  });
+
   return (
     <>
       <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white ">
@@ -13,7 +46,7 @@ export default function Login() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 text-black">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={formik.handleSubmit}>
               <div>
                 <label
                   className="flex items-center gap-2 input input-bordered input-primary w-full"
@@ -32,9 +65,18 @@ export default function Login() {
                     type="text"
                     className="grow "
                     placeholder="Email or username"
-                    required
+                    name="emailOrUsername"
+                    value={formik.values.emailOrUsername}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.emailOrUsername &&
+                  formik.errors.emailOrUsername && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {formik.errors.emailOrUsername}
+                    </p>
+                  )}
               </div>
 
               <div>
@@ -54,13 +96,22 @@ export default function Login() {
                       clipRule="evenodd"
                     />
                   </svg>
+
                   <input
-                    type="text"
+                    type="password"
                     className="grow"
                     placeholder="Password"
-                    required
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.password && formik.errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.password}
+                  </p>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
@@ -70,7 +121,6 @@ export default function Login() {
                     name="remember_me"
                     type="checkbox"
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-black rounded"
-                    required
                   />
                   <label
                     htmlFor="remember_me"
