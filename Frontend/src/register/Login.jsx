@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import callAxios from "../commonFunction/callAxios";
 import { toast } from "react-toastify";
+import callAxios from "../services/callAxios";
 
 const formValidation = () => {
   const validationSchema = yup.object({
-    emailOrUsername: yup.string().required("Email or username is required"),
+    email: yup.string().required("Email or username is required"),
     password: yup.string().required("Password is required"),
   });
   return validationSchema;
@@ -17,13 +17,13 @@ export default function Login() {
   const validateForm = formValidation();
   const formik = useFormik({
     initialValues: {
-      emailOrUsername: "",
+      email: "",
       password: "",
     },
     validationSchema: validateForm,
     onSubmit: async (values) => {
       try {
-        const response = await callAxios("post", "users/register", values);
+        const response = await callAxios("post", "users/login", values);
         if (response?.success === true) {
           toast.success(response.message);
         } else {
@@ -64,17 +64,17 @@ export default function Login() {
                   <input
                     type="text"
                     className="grow "
-                    placeholder="Email or username"
-                    name="emailOrUsername"
-                    value={formik.values.emailOrUsername}
+                    placeholder="Email"
+                    name="email"
+                    value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
                 </label>
-                {formik.touched.emailOrUsername &&
-                  formik.errors.emailOrUsername && (
+                {formik.touched.email &&
+                  formik.errors.email && (
                     <p className="text-red-500 text-xs mt-1">
-                      {formik.errors.emailOrUsername}
+                      {formik.errors.email}
                     </p>
                   )}
               </div>

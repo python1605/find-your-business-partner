@@ -1,13 +1,15 @@
 const bcrypt = require('bcrypt');
 const userService = require('../services/user/user.service');
 const responseHandler = require('../config/responseHandler');
-const { registerSchema } = require('../validations/user.validation');
+const {
+  registerSchema,
+  loginschema,
+} = require('../validations/user.validation');
 const { JWT_SECRET, user, pass } = process.env;
 class UserController {
   async register(req, res) {
     try {
       const requestData = req.body;
-      console.log('requestData=======>', requestData);
       await registerSchema.validateAsync(requestData);
 
       const isEmailAlreadyExists = await userService.isEmailAlreadyExists(
@@ -33,25 +35,23 @@ class UserController {
   // Login admin
   async login(req, res) {
     try {
-      const validationResult = await loginValidation(req.body);
-      if (validationResult.error) {
-        return res.json(
-          responseHandler(validationResult.error.details[0].message, false)
-        );
-      }
+      await loginschema.validateAsync(req.body);
       const iUserExists = await userService.isEmailAlreadyExists(
         req.body.email
       );
       if (!iUserExists) {
         return res.json(responseHandler('User does not exists', false));
       }
-      isMatched = bcrypt.compareSync(req.body.password, iUserExists.password);
+      const isMatched = bcrypt.compareSync(
+        req.body.password,
+        iUserExists.password
+      );
 
       if (!isMatched) {
         return res.json(responseHandler('Password mismatch.', false));
       }
       // Generate Token
-      const token = await userService.generateAuthToken(user);
+      const token = await userService.generateAuthToken(iUserExists);
       iUserExists.token = token;
       return res.json(
         responseHandler('User is successfully logged in!!', true, {
@@ -62,6 +62,7 @@ class UserController {
         })
       );
     } catch (error) {
+      console.log(error);
       return res.json(
         responseHandler('something went wrong! Please try again.', false, error)
       );

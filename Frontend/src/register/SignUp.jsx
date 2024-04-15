@@ -4,7 +4,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import callAxios from "../commonFunction/callAxios";
+import callAxios from "../services/callAxios";
+import { useNavigate } from "react-router-dom";
 
 const formValidation = () => {
   const validationSchema = yup.object({
@@ -25,6 +26,7 @@ const formValidation = () => {
 };
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const validateForm = formValidation();
   const formik = useFormik({
     initialValues: {
@@ -38,6 +40,9 @@ export default function SignUp() {
         const response = await callAxios("post", "users/register", values);
         if (response?.success === true) {
           toast.success(response.message);
+          setTimeout(()=>{
+            navigate("/login")
+          },10000)
         } else {
           toast.warning(response?.message);
         }
