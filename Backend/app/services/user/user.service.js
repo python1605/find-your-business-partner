@@ -10,6 +10,11 @@ class UserService {
     return await userSchema.findOne({ email });
   }
 
+  //isUserNameAlreadyExists
+  async isUserNameAlreadyExists(userName) {
+    return await userSchema.findOne({ userName });
+  }
+
   // generate jwt token
   async generateAuthToken(user) {
     console.log('user======>', user);

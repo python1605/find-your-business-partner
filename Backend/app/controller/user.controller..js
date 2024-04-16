@@ -68,6 +68,27 @@ class UserController {
       );
     }
   }
+
+  // isUserName Already exists
+  async isUserNameAlreadyExists(req, res) {
+    try {
+      if (!req.body?.userName) {
+        return res.json(responseHandler('Please Enter the userName', false));
+      }
+      const isUserNameAlreadyExists = await userService.isUserNameAlreadyExists(
+        req.body.userName
+      );
+      if (isUserNameAlreadyExists) {
+        return res.json(responseHandler('userName Already Exists', false));
+      }
+      return res.json(responseHandler('userName does not Exists', true));
+    } catch (error) {
+      console.log(error);
+      return res.json(
+        responseHandler('something went wrong! Please try again.', false, error)
+      );
+    }
+  }
 }
 
 module.exports = new UserController();
