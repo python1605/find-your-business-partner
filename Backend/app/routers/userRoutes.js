@@ -12,7 +12,5 @@ router.route('/login').post(userController.login);
 router.route('/register').post(userController.register);
 
 // is user already exists
-router
-  .route('/isUserNameAlreadyExists')
-  .get(userController.isUserNameAlreadyExists);
+router.route('/isExist').get(userController.isUserNameAlreadyExists);
 module.exports = router;
