@@ -40,9 +40,7 @@ export default function SignUp() {
         const response = await callAxios("post", "users/register", values);
         if (response?.success === true) {
           toast.success(response.message);
-          setTimeout(()=>{
-            navigate("/login")
-          },10000)
+          navigate("/login");
         } else {
           toast.warning(response?.message);
         }

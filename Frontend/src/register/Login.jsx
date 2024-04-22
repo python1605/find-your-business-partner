@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import callAxios from "../services/callAxios";
+import { jwtDecode } from "jwt-decode";
 
 const formValidation = () => {
   const validationSchema = yup.object({
@@ -25,6 +26,8 @@ export default function Login() {
       try {
         const response = await callAxios("post", "users/login", values);
         if (response?.success === true) {
+          const { token } = response.data;
+          localStorage.setItem("token", jwtDecode(token));
           toast.success(response.message);
         } else {
           toast.warning(response?.message);
