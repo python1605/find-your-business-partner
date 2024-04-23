@@ -1,7 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { LuText } from "react-icons/lu";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import callAxios from "../services/callAxios";
+import { useNavigate } from "react-router-dom";
+import { IoEyeOutline } from "react-icons/io5";
+
+
+const formValidation = () => {
+  const validationSchema = yup.object({
+    userName: yup
+      .string()
+      .required("Username is required")
+      .min(6, "Password must be at least 6 characters long"),
+    email: yup
+      .string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters long"),
+  });
+  return validationSchema;
+};
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [passwordType, setPasswordType] = useState('password'); 
+
+  const validateForm = formValidation();
+  const formik = useFormik({
+    initialValues: {
+      userName: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: validateForm,
+    onSubmit: async (values) => {
+      try {
+        const response = await callAxios("post", "users/register", values);
+        if (response?.success === true) {
+          toast.success(response.message);
+          navigate("/login");
+        } else {
+          toast.warning(response?.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    },
+  });
+
+  const togglePasswordVisibility = () => {
+    setPasswordType(passwordType === 'password' ? 'text' : 'password'); 
+  };
   return (
     <>
       <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white">
@@ -13,21 +68,28 @@ export default function SignUp() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 text-black">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={formik.handleSubmit}>
               <div>
                 <label
                   className="flex items-center gap-2 input input-bordered input-primary w-full"
                   style={{ backgroundColor: "white" }}
                 >
                   <LuText />
-
                   <input
                     type="text"
-                    className="grow "
+                    className="grow"
                     placeholder="Username"
-                    required
+                    name="userName"
+                    value={formik.values.userName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.userName && formik.errors.userName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.userName}
+                  </p>
+                )}
               </div>
               <div>
                 <label
@@ -45,11 +107,19 @@ export default function SignUp() {
                   </svg>
                   <input
                     type="text"
-                    className="grow "
+                    className="grow"
                     placeholder="Email"
-                    required
+                    name="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </label>
+                {formik.touched.email && formik.errors.email && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.email}
+                  </p>
+                )}
               </div>
               <div>
                 <label
@@ -68,17 +138,28 @@ export default function SignUp() {
                       clipRule="evenodd"
                     />
                   </svg>
+
                   <input
-                    type="text"
+                    type={passwordType}
                     className="grow"
                     placeholder="Password"
-                    required
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
+                  <IoEyeOutline className="w-6 h-6" onClick={togglePasswordVisibility}/>
+
                 </label>
+                {formik.touched.password && formik.errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {formik.errors.password}
+                  </p>
+                )}
               </div>
 
               <div className="flex items-center justify-between text-gray">
-                .You may login from both Email & Username.
+                You may login from both Email & Username.
               </div>
 
               <div className="text-center">
@@ -86,7 +167,7 @@ export default function SignUp() {
                   type="submit"
                   className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-150 mb-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Sign In
+                  Sign Up
                 </button>
               </div>
             </form>

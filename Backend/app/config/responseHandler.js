@@ -1,4 +1,4 @@
-const errorHandler = (msg, success, data) => {
+const responseHandler = (msg, success, data) => {
   const obj = {};
   obj.message = msg;
   obj.success = success;
@@ -7,4 +7,4 @@ const errorHandler = (msg, success, data) => {
   return obj;
 };
 
-module.exports = errorHandler;
+module.exports = responseHandler;
