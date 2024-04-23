@@ -23,9 +23,9 @@ export default function BusinessInfo() {
           </button>
         </div>
         <div>
-          <div className="text-3xl sm:text-5xl font-extrabold">
+          <div className="text-4xl sm:text-5xl font-extrabold">
             <IoBusinessOutline className="inline-block ml-2 mb-5 text-white" />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-black">
               FIND YOUR BUSINESS PARTNER HERE...
             </span>
           </div>

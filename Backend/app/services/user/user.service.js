@@ -19,7 +19,7 @@ class UserService {
   async generateAuthToken(user) {
     console.log('user======>', user);
     const token = jwt.sign(
-      { _id: user._id.toString(),userName:user.userName },
+      { _id: user._id.toString(), userName: user.userName },
       process.env.JWT_SECRET
     );
     return token;
@@ -36,3 +36,4 @@ class UserService {
 }
 
 module.exports = new UserService();
+  

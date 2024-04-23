@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LuText } from "react-icons/lu";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import callAxios from "../services/callAxios";
 import { useNavigate } from "react-router-dom";
+import { IoEyeOutline } from "react-icons/io5";
+
 
 const formValidation = () => {
   const validationSchema = yup.object({
@@ -27,6 +29,8 @@ const formValidation = () => {
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [passwordType, setPasswordType] = useState('password'); 
+
   const validateForm = formValidation();
   const formik = useFormik({
     initialValues: {
@@ -50,6 +54,9 @@ export default function SignUp() {
     },
   });
 
+  const togglePasswordVisibility = () => {
+    setPasswordType(passwordType === 'password' ? 'text' : 'password'); 
+  };
   return (
     <>
       <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white">
@@ -133,7 +140,7 @@ export default function SignUp() {
                   </svg>
 
                   <input
-                    type="password"
+                    type={passwordType}
                     className="grow"
                     placeholder="Password"
                     name="password"
@@ -141,6 +148,8 @@ export default function SignUp() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
+                  <IoEyeOutline className="w-6 h-6" onClick={togglePasswordVisibility}/>
+
                 </label>
                 {formik.touched.password && formik.errors.password && (
                   <p className="text-red-500 text-xs mt-1">
